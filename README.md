@@ -3,7 +3,7 @@
 
 This repository represents my submission for the Radar section of Udacity's Sensor Fusion Engineer course. It consists of the MATLAB script ´Radar_Target_Generation_and_Detection.m´, a corresponding MATLAB live script (the mlx-file), and this README file.
 
-The paragraphs below highlight the central [CA][CA]-[CFAR][CFAR] algorithm and supplemental steps. Note that, alongside with CA-CFAR, there are several other CFAR algorithms, such as [OS-CFAR][OS], [MAMIS-CFAR][MAMIS], and multiple other variations of CA-CFAR.
+The paragraphs below highlight the central [CA-CFAR](#glossary) algorithm and supplemental steps. Note that, alongside with CA-CFAR, there are several other CFAR algorithms, such as [OS-CFAR](#glossary), [MAMIS-CFAR](#glossary), and multiple other variations of CA-CFAR.
 
 The central idea of the CFAR-CA algorithm is to average the background noise within a neighborhood of the current 'cell under test' (abreviated by 'CUT'). This neighborhood consists of two rings, an inner ring consisting of the immediate neighborhood of the so-called guarding cells, and an outer ring with the training cells. It is the testing cells in which the noise is sampled and averaged to determine the threshold. This threshold is used to evaluate whether the CUT's value is considered a valid signal or only part of the background noise.
 
@@ -13,7 +13,7 @@ Note that the dimensions of the RDM can be determined by the expression `size(RD
 
     size(RDM) = [512 128].
 
-The algorithm iterated over all of the RDM's cells in the range and Doppler dimensions as follows:
+The algorithm iterates over all of the RDM's cells in the range and Doppler dimensions as follows:
 
     for i = Tr+Gr+1:Nr/2-(Gr+Tr)
         for j = Td+Gd+1:Nd-(Gd+Td)
@@ -23,7 +23,7 @@ The algorithm iterated over all of the RDM's cells in the range and Doppler dime
 
 Here `Gr`, `Gd`, `Tr`, and `Td` are the parameters which describe the neighborhood of the CUT. The parameters `Gr` and `Gd` are the dimensions for the guarding cells in the range dimension and the Doppler dimension, respectively, and `Tr` and `Td` for the training cells in the corresponding dimensions.
 
-Notice that the iteration does not start directly at the edges of the RDM-domain. This is because we need to average over all of the CUT's training cells in order to obtain a reasonable threshold. The [following section][Steps Taken to Suppress the Non-Thresholded Cells at the Edges] handles this border case.
+Notice that the iteration does not start directly at the edges of the RDM-domain. This is because we need to average over all of the CUT's training cells in order to obtain a reasonable threshold. The [following section](#selection-of-training-guard-cells-and-offset) handles this border case.
 
 The averaging algorithm around a CUT at `(i,j)` is given by the following code:
 
@@ -89,7 +89,10 @@ The border is of width `Gr+Tr` in the range dimension and `Gd+Td` in the Doppler
 
 ### Glossary
 
-[CFAR]: Constant False Alarm Rate
-[CA]: Cell Averaging
-[OS]: Ordered Statistics
-[MAMIS]: Maximum Minimum Statistics
+**CFAR**: Constant False Alarm Rate
+
+**CA**: Cell Averaging
+
+**OS**: Ordered Statistics
+
+**MAMIS**: Maximum Minimum Statistics
